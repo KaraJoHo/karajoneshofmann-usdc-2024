@@ -12,6 +12,13 @@
  * under the hamburger (three horizontal lines), also hidden under "More Tools." 
  */
 
+/* NOTEs: - function will take the search term(string) and the object with scanned text
+        - This object is nested and I want to get to the content section of the object
+        - I can use a for loop to iterate through each layer or use ForEach to get in to the object then to the content
+        - Once I am looking at the content, I want to see if the searched term matches any part of the text
+        - If I find a match, I want to return an object with the search term and the results in a list
+* /
+
 /**
  * Searches for matches in scanned text.
  * @param {string} searchTerm - The word or term we're searching for. 
@@ -26,6 +33,22 @@
         "SearchTerm": "",
         "Results": []
     };
+
+     /* First iterate through each book in the input object
+        Then iterate through each object in the content of each book
+        Only looking at the "Text" key to see if the search term appears in the value
+        If it does, push the output information to the results array */
+     for (const book of scannedTextObj) {
+         for (const content of book["Content"]) {
+             if (content["Text"].includes(searchTerm)) {
+                 result["Results"].push({
+                     "ISBN": book["ISBN"],
+                     "Page": content["Page"],
+                     "Line": content["Line"]
+                 })
+             }
+         }
+     }
     
     return result; 
 }
@@ -102,3 +125,5 @@ if (test2result.Results.length == 1) {
     console.log("Expected:", twentyLeaguesOut.Results.length);
     console.log("Received:", test2result.Results.length);
 }
+
+
