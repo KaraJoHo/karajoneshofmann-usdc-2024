@@ -130,6 +130,17 @@ const substringLeaguesOut = {
     "Results": []
 }
 
+const dashOut = {
+    "SearchTerm": "dark",
+    "Results": [
+    {
+        "ISBN": "9780000528531",
+        "Page": 31,
+        "Line": 8  
+    }
+    ]
+}
+
 /*
  _   _ _   _ ___ _____   _____ _____ ____ _____ ____  
 | | | | \ | |_ _|_   _| |_   _| ____/ ___|_   _/ ___| 
@@ -185,6 +196,17 @@ if (JSON.stringify(substringLeaguesOut) === JSON.stringify(testSubstring)) {
     console.log("FAIL: Test 4");
     console.log("Expected:", substringLeaguesOut);
     console.log("Received:", testSubstring);
+}
+
+/* Test for special characters */
+
+const testSpecialCharacters = findSearchTermInBooks("dark", twentyLeaguesIn)
+if (JSON.stringify(dashOut) === JSON.stringify(testSpecialCharacters)) {
+    console.log("PASS: Test 5");
+} else {
+    console.log("FAIL: Test 5");
+    console.log("Expected:", dashOut);
+    console.log("Received:", testSpecialCharacters);
 }
 
 
