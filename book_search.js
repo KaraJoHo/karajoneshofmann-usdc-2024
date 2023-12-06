@@ -166,14 +166,14 @@ if (test2result.Results.length == 1) {
     console.log("Received:", test2result.Results.length);
 }
 
-/* Test for a capitol "The" */
-const testForCapitol = findSearchTermInBooks("The", twentyLeaguesIn);
-if (JSON.stringify(thirtyLeaguesOut) === JSON.stringify(testForCapitol)) {
+/* Test for a capital "The" */
+const testForCapital = findSearchTermInBooks("The", twentyLeaguesIn);
+if (JSON.stringify(thirtyLeaguesOut) === JSON.stringify(testForCapital)) {
     console.log("PASS: Test 3");
 } else {
     console.log("FAIL: Test 3");
     console.log("Expected:", thirtyLeaguesOut);
-    console.log("Received:", testForCapitol);
+    console.log("Received:", testForCapital);
 }
 
 /* Test substring, return nothing for a substring */
