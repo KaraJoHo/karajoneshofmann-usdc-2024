@@ -30,7 +30,7 @@
      * return the appropriate object here. */
 
     var result = {
-        "SearchTerm": "",
+        "SearchTerm": searchTerm,
         "Results": []
     };
 
@@ -38,6 +38,7 @@
         Then iterate through each object in the content of each book
         Only looking at the "Text" key to see if the search term appears in the value
         If it does, push the output information to the results array */
+     /* WORKING FOR FIRST 2 TESTS
      for (const book of scannedTextObj) {
          for (const content of book["Content"]) {
              if (content["Text"].includes(searchTerm)) {
@@ -47,6 +48,27 @@
                      "Line": content["Line"]
                  })
              }
+         }
+     } - */
+
+     /* Next, I want to make sure that my solution is not matching substrings
+     I don't want the search term "found" to match "profound" in line 9
+     and to avoid special characters like dashes
+     regex \ and word boundary will let me match just the word in the search term to something in the
+     lines of content(no substrings), if they exist while also ignoring the special characters..
+     make a regex to test the search term to match just the term provided and nothing else*/
+
+     for (const book of scannedTextObj) {
+         for (const content of book["Content"]) {
+            const regex = new RegExp(`\\b${searchTerm}\\b`)
+
+             if ((regex.test(content["Text"]))) {
+                 result["Results"].push({
+                     "ISBN": book["ISBN"],
+                     "Page": content["Page"],
+                     "Line": content["Line"]
+                 })
+            }
          }
      }
     
@@ -90,6 +112,24 @@ const twentyLeaguesOut = {
     ]
 }
 
+/*Output test for capitol "The" */
+const thirtyLeaguesOut = {
+    "SearchTerm": "The",
+    "Results": [
+        {
+            "ISBN": "9780000528531",
+            "Page": 31,
+            "Line": 8
+        }
+    ]
+}
+
+/*Output test for substring, don't want it to return "profound in line 9" */
+const substringLeaguesOut = {
+    "SearchTerm": "found",
+    "Results": []
+}
+
 /*
  _   _ _   _ ___ _____   _____ _____ ____ _____ ____  
 | | | | \ | |_ _|_   _| |_   _| ____/ ___|_   _/ ___| 
@@ -125,5 +165,28 @@ if (test2result.Results.length == 1) {
     console.log("Expected:", twentyLeaguesOut.Results.length);
     console.log("Received:", test2result.Results.length);
 }
+
+/* Test for a capitol "The" */
+const testForCapitol = findSearchTermInBooks("The", twentyLeaguesIn);
+if (JSON.stringify(thirtyLeaguesOut) === JSON.stringify(testForCapitol)) {
+    console.log("PASS: Test 3");
+} else {
+    console.log("FAIL: Test 3");
+    console.log("Expected:", thirtyLeaguesOut);
+    console.log("Received:", testForCapitol);
+}
+
+/* Test substring, return nothing for a substring */
+
+const testSubstring = findSearchTermInBooks("found", twentyLeaguesIn);
+if (JSON.stringify(substringLeaguesOut) === JSON.stringify(testSubstring)) {
+    console.log("PASS: Test 4");
+} else {
+    console.log("FAIL: Test 4");
+    console.log("Expected:", substringLeaguesOut);
+    console.log("Received:", testSubstring);
+}
+
+
 
 
